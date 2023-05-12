@@ -1,5 +1,6 @@
 import csv
 
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -10,7 +11,6 @@ class Item:
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
         Создание экземпляра класса item.
-
         :param name: Название товара.
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
@@ -21,22 +21,28 @@ class Item:
         self.quantity = quantity
         self.all.append(self)
 
+    def __repr__(self):
+        """Магический метод __repr__ для отображения названия класса и объекте класса в режиме отладки"""
+        return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
 
-    """Декоратор @property (геттер) делает атрибут __name доступным извне"""
+    def __str__(self):
+        """Магический метод __str__ для отображения информации об объекте класса для пользователей"""
+        return f"{self.__name}"
+
     @property
     def name(self):
+        """Декоратор @property (геттер) делает атрибут __name доступным извне"""
         return self.__name
 
-    """В сеттере @name.setter проверяем, что длина наименования товара не больше 10 символов"""
     @name.setter
     def name(self, value):
+        """В сеттере @name.setter проверяем, что длина наименования товара не больше 10 символов"""
         self.__name = value
         if len(value) <= 10:
             self.__name = value
         else:
             raise ValueError("Длина наименования товара превышает 10 символов.")
-            #print("Ошибка! Длина наименования товара больше 10 символов")
-
+            # print("Ошибка! Длина наименования товара больше 10 символов")
 
     def calculate_total_price(self) -> float:
         """
@@ -71,4 +77,3 @@ class Item:
         Статический метод, возвращающий число из числа-строки
         """
         return int(float(number))
-
