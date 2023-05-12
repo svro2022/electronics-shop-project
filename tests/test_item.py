@@ -24,11 +24,11 @@ def test_string_to_number():
     assert Item.string_to_number('0') == 0
     assert Item.string_to_number('6.66') == 6
 
-def test_namesetter_1(test_item):
+def test_namesetter_true_name(test_item):
     test_item.name = "SmartPhone"
     assert test_item.name == "SmartPhone"
 
-def test_namesetter_2(test_item):
+def test_namesetter_false_name(test_item):
     with pytest.raises(ValueError):
         test_item.name = "SuperSmartPhone"
 
