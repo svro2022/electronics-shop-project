@@ -29,6 +29,13 @@ class Item:
         """Магический метод __str__ для отображения информации об объекте класса для пользователей"""
         return f"{self.__name}"
 
+    def __add__(self, other):
+        """Магический метод __add__ для сложения экземпляров класса.
+        isinstance(other, Item) - проверяет принадлежность объекта к классу Item"""
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        raise AssertionError("Сложение возможно только для экземпляров Item и Phone")
+
     @property
     def name(self):
         """Декоратор @property (геттер) делает атрибут __name доступным извне"""
