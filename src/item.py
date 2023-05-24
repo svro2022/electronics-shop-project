@@ -71,12 +71,20 @@ class Item:
         Класс-метод, инициализирующий экземпляры класса `Item` данными из файла _src/items.csv
         """
         cls.all.clear()
-        with open(file_path, 'r', encoding='windows-1251') as file:
-            file_reader = csv.DictReader(file, delimiter=',')
+        try:
+            with open(file_path, 'r', encoding='windows-1251') as file:
+                file_reader = csv.DictReader(file, delimiter=',')
 
-            for value in file_reader:
-                name, price, quantity = value.values()
-                cls(name, cls.string_to_number(price), cls.string_to_number(quantity))
+                for value in file_reader:
+                    obj = (cls(name=value["name"], price=value["price"], quantity=value["quantity"]))
+                    #name, price, quantity = value.values()
+                    #cls(name, cls.string_to_number(price), cls.string_to_number(quantity))
+
+                if not obj:
+                    raise InstantiateCSVError
+
+        except FileNotFoundError:
+            print('Отсутствует файл item.csv')
 
     @staticmethod
     def string_to_number(number):
@@ -84,3 +92,14 @@ class Item:
         Статический метод, возвращающий число из числа-строки
         """
         return int(float(number))
+
+
+class InstantiateCSVError(Exception):
+    def __init__(self, *args, **kwargs):
+        """
+        Класс-исключение для ошибок повреждения файла
+        """
+        self.message = args[0] if args else 'Файл item.csv поврежден.'
+
+    def __str__(self):
+        return self.message
