@@ -73,18 +73,16 @@ class Item:
         cls.all.clear()
         try:
             with open(file_path, 'r', encoding='windows-1251') as file:
-                file_reader = csv.DictReader(file, delimiter=',')
+                reader = csv.DictReader(file)
 
-                for value in file_reader:
-                    obj = (cls(name=value["name"], price=value["price"], quantity=value["quantity"]))
-                    #name, price, quantity = value.values()
-                    #cls(name, cls.string_to_number(price), cls.string_to_number(quantity))
-
-                if not obj:
-                    raise InstantiateCSVError
+                for i in reader:
+                    try:
+                        cls(i['name'], i['price'], i['quantity'])
+                    except Exception:
+                        raise InstantiateCSVError('Файл поврежден')
 
         except FileNotFoundError:
-            print('Отсутствует файл item.csv')
+            raise FileNotFoundError(f'Отсутствует файл {file_path}')
 
     @staticmethod
     def string_to_number(number):
