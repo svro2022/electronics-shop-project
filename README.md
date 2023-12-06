@@ -1,4 +1,4 @@
-## Electronic Shop
+## Electronics Shop
 
 ---
 
